@@ -72,7 +72,7 @@ const AddCustomerScreen = () => {
       <TextInput
         style={styles.input}
         placeholder="customer Name"
-        // placeholderTextColor="#000000"
+        placeholderTextColor="#ccc"
         value={name}
         onChangeText={text => setName(text)}
       />
@@ -80,7 +80,7 @@ const AddCustomerScreen = () => {
       <TextInput
         style={styles.input}
         placeholder="Customer Mobile Number"
-        // placeholderTextColor="#000000"
+        placeholderTextColor="#ccc"
         keyboardType="phone-pad"
         value={mobile}
         onChangeText={text => setMobile(text)}
@@ -97,7 +97,7 @@ const AddCustomerScreen = () => {
       <TextInput
         style={styles.input}
         placeholder="Customer date of birth"
-        // placeholderTextColor="#000000"
+        placeholderTextColor="#ccc"
         value={dob}
         onChangeText={text => setDob(text)}
       />

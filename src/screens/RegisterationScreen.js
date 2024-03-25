@@ -1,13 +1,20 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import React, {useState} from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  Alert,
+} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
 const RegistrationScreen = () => {
-  const navigation = useNavigation(); 
+  const navigation = useNavigation();
 
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
-  
+
   const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
 
@@ -28,26 +35,25 @@ const RegistrationScreen = () => {
         user_password: password,
       }),
     })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return response.json();
-    })
-    .then(data => {
-      // If registration successful, navigate to login screen
-      navigation.navigate('Login');
-      console.log("response", data); // Change 'response' to 'data'
-    })
-    
-    .catch(error => {
-      console.error('Error:', error);
-      // Show error alert message
-      console.log('Error', 'Registration failed. Please try again later.')
-      Alert.alert('Error', 'Registration failed. Please try again later.');
-    });
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        // If registration successful, navigate to login screen
+        navigation.navigate('Login');
+        console.log('response', data); // Change 'response' to 'data'
+      })
+
+      .catch(error => {
+        console.error('Error:', error);
+        // Show error alert message
+        console.log('Error', 'Registration failed. Please try again later.');
+        Alert.alert('Error', 'Registration failed. Please try again later.');
+      });
   };
-  
 
   const handleLogin = () => {
     navigation.navigate('Login');
@@ -56,9 +62,11 @@ const RegistrationScreen = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Registration</Text>
+
       <TextInput
         style={styles.input}
         placeholder="Email"
+        placeholderTextColor="#000"
         keyboardType="email-address"
         onChangeText={text => setEmail(text)}
         value={email}
@@ -66,13 +74,15 @@ const RegistrationScreen = () => {
       <TextInput
         style={styles.input}
         placeholder="Name"
+        placeholderTextColor="#000"
         onChangeText={text => setName(text)}
         value={name}
       />
       <TextInput
         style={styles.input}
-        placeholder="Phone Number"
+        placeholder="Phone number"
         keyboardType="phone-pad"
+        placeholderTextColor="#000"
         onChangeText={text => setPhoneNumber(text)}
         value={phoneNumber}
       />
@@ -80,6 +90,7 @@ const RegistrationScreen = () => {
         style={styles.input}
         placeholder="Password"
         secureTextEntry={true}
+        placeholderTextColor="#000"
         onChangeText={text => setPassword(text)}
         value={password}
       />
@@ -134,4 +145,3 @@ const styles = StyleSheet.create({
 });
 
 export default RegistrationScreen;
-
