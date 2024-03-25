@@ -1,0 +1,137 @@
+import React, { useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+
+const RegistrationScreen = () => {
+  const navigation = useNavigation(); 
+
+  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleRegister = () => {
+    if (!email || !name || !phoneNumber || !password) {
+      console.error('Please fill in all fields.');
+      Alert.alert('Error', 'Please fill in all fields.');
+      return;
+    }
+    fetch('https://mssriharsha.pythonanywhere.com/registration', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        user_name: name,
+        user_email: email,
+        user_password: password,
+      }),
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      // If registration successful, navigate to login screen
+      navigation.navigate('Login');
+      console.log("response", data); // Change 'response' to 'data'
+    })
+    
+    .catch(error => {
+      console.error('Error:', error);
+      // Show error alert message
+      console.log('Error', 'Registration failed. Please try again later.')
+      Alert.alert('Error', 'Registration failed. Please try again later.');
+    });
+  };
+  
+
+  const handleLogin = () => {
+    navigation.navigate('Login');
+  };
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>Registration</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Email"
+        keyboardType="email-address"
+        onChangeText={text => setEmail(text)}
+        value={email}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Name"
+        onChangeText={text => setName(text)}
+        value={name}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Phone Number"
+        keyboardType="phone-pad"
+        onChangeText={text => setPhoneNumber(text)}
+        value={phoneNumber}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Password"
+        secureTextEntry={true}
+        onChangeText={text => setPassword(text)}
+        value={password}
+      />
+      <TouchableOpacity style={styles.button} onPress={handleRegister}>
+        <Text style={styles.buttonText}>Register</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={handleLogin}>
+        <Text style={styles.button2}>Login here</Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  input: {
+    width: '80%',
+    height: 40,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderRadius: 5,
+    marginBottom: 10,
+    paddingHorizontal: 10,
+  },
+  button: {
+    width: '80%',
+    backgroundColor: '#007bff',
+    borderRadius: 5,
+    paddingVertical: 12,
+    marginTop: 20,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+  },
+  button2: {
+    marginTop: 10,
+    color: '#007bff',
+    textDecorationLine: 'underline',
+  },
+});
+
+export default RegistrationScreen;
+
