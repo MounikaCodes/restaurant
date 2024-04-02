@@ -14,14 +14,11 @@ const RegistrationScreen = () => {
 
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
-
-  const [phoneNumber, setPhoneNumber] = useState('');
+  const [mobile, setMobile] = useState('');
   const [password, setPassword] = useState('');
 
   const handleRegister = () => {
-    if (!email || !name || !phoneNumber || !password) {
-      console.error('Please fill in all fields.');
-      Alert.alert('Error', 'Please fill in all fields.');
+    if (!validateInputs()) {
       return;
     }
     fetch('https://mssriharsha.pythonanywhere.com/registration', {
@@ -54,18 +51,59 @@ const RegistrationScreen = () => {
         Alert.alert('Error', 'Registration failed. Please try again later.');
       });
   };
+  const validateInputs = () => {
+    // Validate name
+    if (!name || name.length > 50) {
+      Alert.alert(
+        'Error',
+        'Name is required and should be up to 50 characters.',
+      );
+      return false;
+    }
+    if (!password) {
+      Alert.alert('Error', 'Set your password');
+      return false;
+    }
+    // Validate mobile number
+    if (!/^\d{10}$/.test(mobile)) {
+      Alert.alert('Error', 'Mobile number should be a 10-digit number.');
+      return false;
+    }
 
+    // Validate email format
+    if (!validateEmail(email)) {
+      Alert.alert('Error', 'Please enter a valid email address.');
+      return false;
+    }
+
+    // Other validation logic for email, dob, etc. can be added here
+
+    return true;
+  };
+
+  const validateEmail = email => {
+    const emailRegex = /\S+@\S+\.\S+/;
+    return emailRegex.test(email);
+  };
+
+  const resetFields = () => {
+    setName('');
+    setMobile('');
+    setEmail('');
+    setPassword('');
+  };
   const handleLogin = () => {
     navigation.navigate('Login');
+    resetFields();
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Registration</Text>
+      {/* <Text style={styles.title}>Registration</Text> */}
 
       <TextInput
         style={styles.input}
-        placeholder="Email"
+        placeholder="Enter email-id"
         placeholderTextColor="#000"
         keyboardType="email-address"
         onChangeText={text => setEmail(text)}
@@ -73,22 +111,22 @@ const RegistrationScreen = () => {
       />
       <TextInput
         style={styles.input}
-        placeholder="Name"
+        placeholder="Enter your name"
         placeholderTextColor="#000"
         onChangeText={text => setName(text)}
         value={name}
       />
       <TextInput
         style={styles.input}
-        placeholder="Phone number"
+        placeholder="Enter your phone number"
         keyboardType="phone-pad"
         placeholderTextColor="#000"
-        onChangeText={text => setPhoneNumber(text)}
-        value={phoneNumber}
+        onChangeText={text => setMobile(text)}
+        value={mobile}
       />
       <TextInput
         style={styles.input}
-        placeholder="Password"
+        placeholder="Set your password"
         secureTextEntry={true}
         placeholderTextColor="#000"
         onChangeText={text => setPassword(text)}

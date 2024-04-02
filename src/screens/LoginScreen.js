@@ -11,8 +11,8 @@ import {useNavigation} from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const LoginScreen = () => {
-  const [username, setUsername] = useState('');
+const LoginScreen = ({clearFields}) => {
+  const [userEmail, setUserEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const navigation = useNavigation('');
@@ -29,7 +29,7 @@ const LoginScreen = () => {
   }, []);
 
   const handleLogin = () => {
-    if (!username || !password) {
+    if (!userEmail || !password) {
       console.error('Please fill in all fields.');
       Alert.alert('Error', 'Please fill in all fields.');
       return;
@@ -41,7 +41,7 @@ const LoginScreen = () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        user_email: username,
+        user_email: userEmail,
         user_password: password,
       }),
     })
@@ -66,7 +66,7 @@ const LoginScreen = () => {
         } else {
           // If token is not present, show error message
           console.error('Login failed: Token not received');
-          Alert.alert('Error', 'Invalid username or password.');
+          Alert.alert('Error', 'Invalid email or password.');
         }
       })
       .catch(error => {
@@ -94,10 +94,10 @@ const LoginScreen = () => {
       <Text style={styles.title}>Login</Text>
       <TextInput
         style={styles.input}
-        placeholder="Username"
+        placeholder="User email"
         placeholderTextColor="#000000"
-        value={username}
-        onChangeText={text => setUsername(text)}
+        value={userEmail}
+        onChangeText={text => setUserEmail(text)}
       />
       <TextInput
         style={styles.input}

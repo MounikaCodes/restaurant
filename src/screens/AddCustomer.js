@@ -7,15 +7,45 @@ import {
   StyleSheet,
   Alert,
 } from 'react-native';
-import {getToken} from '../data/storage';
-
-const AddCustomerScreen = () => {
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import {getToken, removeToken} from '../data/storage';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import {format} from 'date-fns';
+const AddCustomerScreen = ({navigation}) => {
   const [name, setName] = useState('');
   const [mobile, setMobile] = useState('');
   const [dob, setDob] = useState(new Date());
   const [token, setToken] = useState('');
   const [email, setEmail] = useState('');
-
+  const [DOBDate, setDOBDate] = useState('');
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const handleDOBChange = (event, selectedDate) => {
+    setShowDatePicker(false);
+    if (selectedDate) {
+      const formattedDate = selectedDate.toLocaleDateString('en-GB');
+      setDOBDate(formattedDate);
+      setDob(selectedDate);
+    }
+  };
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity
+          onPress={handleLogout}
+          style={{position: 'absolute', top: '30%', left: '65%', zIndex: 1}}>
+          <Icon name="logout" color="white" size={25} />
+        </TouchableOpacity>
+      ),
+    });
+  }, []);
+  const handleLogout = async () => {
+    // Clear AsyncStorage and navigate to Login screen
+    await removeToken();
+    navigation.reset({
+      index: 0,
+      routes: [{name: 'Login'}],
+    });
+  };
   useEffect(() => {
     // Retrieve token when component mounts
     const fetchToken = async () => {
@@ -26,11 +56,9 @@ const AddCustomerScreen = () => {
   }, []); // Empty dependency array ensures useEffect runs only once on component mount
 
   const handleAddCustomer = () => {
-    if (!name || !mobile || !dob || !token || !email) {
-      Alert.alert('Error', 'Please fill in all fields.');
+    if (!validateInputs()) {
       return;
     }
-
     fetch('https://mssriharsha.pythonanywhere.com/customers', {
       method: 'POST',
       headers: {
@@ -40,7 +68,7 @@ const AddCustomerScreen = () => {
         customer_name: name,
         customer_phone: mobile,
         customer_email: email,
-        customer_dob: dob,
+        customer_dob: format(dob, 'dd-MM-yyyy'),
         token: token,
       }),
     })
@@ -53,10 +81,11 @@ const AddCustomerScreen = () => {
       .then(data => {
         console.log('Customer Added Succesfully', data);
         Alert.alert('Customer Added Succesfully');
-        setName('');
-        setMobile('');
-        setDob('');
-        setEmail('');
+        resetFields();
+        // setName('');
+        // setMobile('');
+        // setDob('');
+        // setEmail('');
       })
       .catch(error => {
         console.error('Error:', error);
@@ -64,7 +93,44 @@ const AddCustomerScreen = () => {
         Alert.alert('Error', 'Login failed. Please try again later.');
       });
   };
+  const validateInputs = () => {
+    // Validate name
+    if (!name || name.length > 50) {
+      Alert.alert(
+        'Error',
+        'Name is required and should be up to 50 characters.',
+      );
+      return false;
+    }
 
+    // Validate mobile number
+    if (!/^\d{10}$/.test(mobile)) {
+      Alert.alert('Error', 'Mobile number should be a 10-digit number.');
+      return false;
+    }
+
+    // Validate email format
+    if (!validateEmail(email)) {
+      Alert.alert('Error', 'Please enter a valid email address.');
+      return false;
+    }
+
+    // Other validation logic for email, dob, etc. can be added here
+
+    return true;
+  };
+
+  const validateEmail = email => {
+    const emailRegex = /\S+@\S+\.\S+/;
+    return emailRegex.test(email);
+  };
+
+  const resetFields = () => {
+    setName('');
+    setMobile('');
+    setDob(new Date());
+    setEmail('');
+  };
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Add a Customer</Text>
@@ -93,14 +159,23 @@ const AddCustomerScreen = () => {
         onChangeText={text => setEmail(text)}
         value={email}
       />
+
       <Text style={styles.label}>Date of Birth:</Text>
       <TextInput
-        style={styles.input}
-        placeholder="Customer date of birth"
-        placeholderTextColor="#ccc"
-        value={dob}
-        onChangeText={text => setDob(text)}
+        style={styles.dateInput}
+        placeholder="Select DOB"
+        placeholderTextColor="gray"
+        value={DOBDate}
+        onFocus={() => setShowDatePicker(true)}
       />
+      {showDatePicker && (
+        <DateTimePicker
+          value={new Date()}
+          mode="date"
+          display="default"
+          onChange={handleDOBChange}
+        />
+      )}
       <TouchableOpacity style={styles.button} onPress={handleAddCustomer}>
         <Text style={styles.buttonText}>Add Customer</Text>
       </TouchableOpacity>
@@ -153,6 +228,16 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  dateInput: {
+    width: '100%',
+    height: 40,
+    borderColor: '#cccccc',
+    borderWidth: 1,
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    marginBottom: 20,
+    color: '#000000',
   },
 });
 

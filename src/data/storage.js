@@ -1,5 +1,3 @@
-// storage.js
-
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const getToken = async () => {
@@ -9,5 +7,15 @@ export const getToken = async () => {
   } catch (error) {
     console.error('Error getting token from AsyncStorage:', error);
     return null;
+  }
+};
+
+// Function to remove token from AsyncStorage
+export const removeToken = async () => {
+  try {
+    await AsyncStorage.removeItem('token');
+    console.log('Token removed from AsyncStorage');
+  } catch (error) {
+    console.error('Error removing token from AsyncStorage:', error);
   }
 };
