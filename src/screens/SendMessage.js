@@ -40,7 +40,7 @@ const SendMessageScreen = ({navigation}) => {
       <TextInput
         style={styles.input}
         placeholder="Type your message here"
-        placeholderTextColor="#000000"
+        placeholderTextColor="#ccc"
         multiline={true}
         numberOfLines={4}
         value={message}

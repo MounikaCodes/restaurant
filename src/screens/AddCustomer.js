@@ -156,6 +156,7 @@ const AddCustomerScreen = ({navigation}) => {
         style={styles.input}
         placeholder="Email"
         keyboardType="email-address"
+        placeholderTextColor="#ccc"
         onChangeText={text => setEmail(text)}
         value={email}
       />
