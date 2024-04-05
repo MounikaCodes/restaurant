@@ -3,7 +3,7 @@ import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {getToken, removeToken} from '../data/storage';
-
+import {styles} from './DashboardScreenStyles';
 const DashboardScreen = () => {
   const navigation = useNavigation();
   useEffect(() => {
@@ -84,29 +84,5 @@ const DashboardScreen = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-  },
-  card: {
-    width: '100%',
-    height: 100,
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 20,
-    elevation: 5,
-  },
-  cardText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#000',
-  },
-});
 
 export default DashboardScreen;

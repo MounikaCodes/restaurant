@@ -3,7 +3,7 @@ import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {getToken, removeToken} from '../data/storage';
-
+import {styles} from './SettingStyles';
 const SettingsScreen = () => {
   useEffect(() => {
     navigation.setOptions({
@@ -61,27 +61,5 @@ const SettingsScreen = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0)',
-    paddingHorizontal: 20,
-  },
-  optionContainer: {
-    width: '100%',
-    height: 40,
-    backgroundColor: 'blue',
-    borderRadius: 5,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 40,
-  },
-  optionText: {
-    fontSize: 16,
-    color: 'white',
-  },
-});
 
 export default SettingsScreen;

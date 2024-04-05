@@ -4,7 +4,7 @@ import LottieView from 'lottie-react-native';
 import {TransitionPresets} from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {getToken, removeToken} from '../data/storage';
-
+import {styles} from './OthersScreenStyles';
 const OtherSettingsScreen = ({navigation}) => {
   useEffect(() => {
     navigation.setOptions({
@@ -37,27 +37,5 @@ const OtherSettingsScreen = ({navigation}) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0)',
-  },
-  lottie: {
-    position: 'absolute',
-    width: '100%',
-    height: '50%',
-    zIndex: -2,
-  },
-
-  text: {
-    marginTop: 40,
-    fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    color: 'blue',
-  },
-});
 
 export default OtherSettingsScreen;

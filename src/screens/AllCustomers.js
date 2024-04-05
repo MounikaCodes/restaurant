@@ -1,17 +1,9 @@
 import React, {useState, useEffect} from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
-  Alert,
-  FlatList,
-} from 'react-native';
+import {View, Text, TextInput, TouchableOpacity, FlatList} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {getToken, removeToken} from '../data/storage';
-
+import {styles} from './AllCustomerStyles';
 const AllCustomersScreen = ({navigation}) => {
   const [count, setCount] = useState(0);
   const [customers, setCustomers] = useState([]);
@@ -167,11 +159,6 @@ const AllCustomersScreen = ({navigation}) => {
               Date of Birth
             </Text>
           </View>
-          {/* <FlatList
-            data={filteredCustomers}
-            renderItem={renderItem}
-            keyExtractor={(item, index) => index.toString()}
-          /> */}
 
           <FlatList
             data={filteredCustomers}
@@ -184,67 +171,5 @@ const AllCustomersScreen = ({navigation}) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#ffffff',
-  },
-  title: {
-    display: 'flex',
-    position: 'relative',
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: '5%',
-    color: 'green',
-    marginTop: '5%',
-    marginLeft: '2%',
-  },
-  searchInput: {
-    borderWidth: 1,
-    marginVertical: '2%',
-    marginHorizontal: '2%',
-    position: 'relative',
-    backgroundColor: '#ffffff',
-    width: '95%',
-    borderColor: '#cccccc',
-    borderWidth: 1,
-    borderRadius: 5,
-    paddingHorizontal: 10,
-    color: '#000000',
-  },
-  table: {
-    borderWidth: 1,
-    borderColor: '#000000',
-    borderRadius: 10,
-    backgroundColor: '#ffffff',
-    margin: 10,
-  },
-  tableRow: {
-    flexDirection: 'row',
-    borderBottomWidth: 1,
-    borderColor: '#000000',
-  },
-  tableHeader: {
-    fontSize: 16,
-    paddingVertical: 10,
-    paddingHorizontal: 5,
-    textAlign: 'center',
-    color: '#fff',
-    backgroundColor: '#073d94',
-    width: '90%',
-  },
-  tableData: {
-    fontSize: 16,
-    paddingVertical: 10,
-    paddingHorizontal: 5,
-    textAlign: 'center',
-    color: '#000000',
-  },
-  border: {
-    borderRightWidth: 1,
-    borderColor: '#000000',
-  },
-});
 
 export default AllCustomersScreen;
