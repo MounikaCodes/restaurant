@@ -50,11 +50,11 @@ const ProfileScreen = ({navigation}) => {
         <TouchableOpacity
           onPress={() => handleEdit('image')}
           style={styles.editIcon}>
-          <FontAwesomeIcon icon={faEdit} size={20} color="#0000ff" />
+          <FontAwesomeIcon icon={faEdit} size={20} color="#073d94" />
         </TouchableOpacity>
       </View>
       <View style={styles.fieldContainer}>
-        <Text style={styles.fieldLabel}>Username:</Text>
+        <Text style={styles.fieldLabel}>Name:</Text>
         <TextInput
           style={styles.fieldInput}
           value={username}
@@ -64,7 +64,7 @@ const ProfileScreen = ({navigation}) => {
         <TouchableOpacity
           onPress={() => handleEdit('username')}
           style={styles.editIcon}>
-          <FontAwesomeIcon icon={faEdit} size={20} color="#0000ff" />
+          <FontAwesomeIcon icon={faEdit} size={20} color="#073d94" />
         </TouchableOpacity>
       </View>
       <View style={styles.fieldContainer}>
@@ -78,10 +78,10 @@ const ProfileScreen = ({navigation}) => {
         <TouchableOpacity
           onPress={() => handleEdit('email')}
           style={styles.editIcon}>
-          <FontAwesomeIcon icon={faEdit} size={20} color="#0000ff" />
+          <FontAwesomeIcon icon={faEdit} size={20} color="#073d94" />
         </TouchableOpacity>
       </View>
-      <View style={styles.fieldContainer}>
+      {/* <View style={styles.fieldContainer}>
         <Text style={styles.fieldLabel}>Date of Birth:</Text>
         <TextInput
           style={styles.fieldInput}
@@ -92,9 +92,9 @@ const ProfileScreen = ({navigation}) => {
         <TouchableOpacity
           onPress={() => handleEdit('dob')}
           style={styles.editIcon}>
-          <FontAwesomeIcon icon={faEdit} size={20} color="#0000ff" />
+          <FontAwesomeIcon icon={faEdit} size={20} color="#073d94" />
         </TouchableOpacity>
-      </View>
+      </View> */}
       <View style={styles.fieldContainer}>
         <Text style={styles.fieldLabel}>Mobile:</Text>
         <TextInput
@@ -106,9 +106,12 @@ const ProfileScreen = ({navigation}) => {
         <TouchableOpacity
           onPress={() => handleEdit('mobile')}
           style={styles.editIcon}>
-          <FontAwesomeIcon icon={faEdit} size={20} color="#0000ff" />
+          <FontAwesomeIcon icon={faEdit} size={20} color="#073d94" />
         </TouchableOpacity>
       </View>
+      <TouchableOpacity style={styles.button} onPress={() => {}}>
+        <Text style={styles.buttonText}>Save changes</Text>
+      </TouchableOpacity>
     </View>
   );
 };

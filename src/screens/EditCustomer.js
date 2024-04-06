@@ -7,12 +7,13 @@ import {
   StyleSheet,
   Alert,
 } from 'react-native';
-import {styles} from './AddCustomerStyles';
+import {styles} from './EditCustomerStyles';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {getToken, removeToken} from '../data/storage';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import {format} from 'date-fns';
-const AddCustomerScreen = ({navigation}) => {
+import {format, parse} from 'date-fns';
+
+const EditCustomerScreen = ({route, navigation}) => {
   const [name, setName] = useState('');
   const [mobile, setMobile] = useState('');
   const [dob, setDob] = useState(new Date());
@@ -20,10 +21,23 @@ const AddCustomerScreen = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [DOBDate, setDOBDate] = useState('');
   const [showDatePicker, setShowDatePicker] = useState(false);
+
+  useEffect(() => {
+    const {customerData} = route.params;
+
+    console.log('Customer Data:', customerData);
+    setName(customerData[1]);
+    setMobile(customerData[3]);
+    setEmail(customerData[2]);
+    setDOBDate(customerData[4]);
+    // Parse the date string to set the date object
+    setDob(parse(customerData[4], 'dd-MM-yyyy', new Date()));
+  }, []);
+
   const handleDOBChange = (event, selectedDate) => {
     setShowDatePicker(false);
     if (selectedDate) {
-      const formattedDate = selectedDate.toLocaleDateString('en-GB');
+      const formattedDate = format(selectedDate, 'dd-MM-yyyy');
       setDOBDate(formattedDate);
       setDob(selectedDate);
     }
@@ -40,7 +54,6 @@ const AddCustomerScreen = ({navigation}) => {
     });
   }, []);
   const handleLogout = async () => {
-    // Clear AsyncStorage and navigate to Login screen
     await removeToken();
     navigation.reset({
       index: 0,
@@ -48,7 +61,6 @@ const AddCustomerScreen = ({navigation}) => {
     });
   };
   useEffect(() => {
-    // Retrieve token when component mounts
     const fetchToken = async () => {
       const userToken = await getToken();
       setToken(userToken);
@@ -56,7 +68,7 @@ const AddCustomerScreen = ({navigation}) => {
     fetchToken();
   }, []); // Empty dependency array ensures useEffect runs only once on component mount
 
-  const handleAddCustomer = () => {
+  const handleSave = () => {
     if (!validateInputs()) {
       return;
     }
@@ -80,13 +92,9 @@ const AddCustomerScreen = ({navigation}) => {
         return response.json();
       })
       .then(data => {
-        console.log('Customer Added Succesfully', data);
-        Alert.alert('Customer Added Succesfully');
+        console.log('Customer Details Updated Succesfully', data);
+        Alert.alert('Customer Details Updated Succesfully');
         resetFields();
-        // setName('');
-        // setMobile('');
-        // setDob('');
-        // setEmail('');
       })
       .catch(error => {
         console.error('Error:', error);
@@ -110,14 +118,10 @@ const AddCustomerScreen = ({navigation}) => {
       return false;
     }
 
-    // Validate email format
     if (!validateEmail(email)) {
       Alert.alert('Error', 'Please enter a valid email address.');
       return false;
     }
-
-    // Other validation logic for email, dob, etc. can be added here
-
     return true;
   };
 
@@ -177,11 +181,11 @@ const AddCustomerScreen = ({navigation}) => {
           onChange={handleDOBChange}
         />
       )}
-      <TouchableOpacity style={styles.button} onPress={handleAddCustomer}>
-        <Text style={styles.buttonText}>Add Customer</Text>
+      <TouchableOpacity style={styles.button} onPress={handleSave}>
+        <Text style={styles.buttonText}>Save </Text>
       </TouchableOpacity>
     </View>
   );
 };
 
-export default AddCustomerScreen;
+export default EditCustomerScreen;

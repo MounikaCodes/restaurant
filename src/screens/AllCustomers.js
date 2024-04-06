@@ -1,5 +1,12 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, TextInput, TouchableOpacity, FlatList} from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  FlatList,
+  RefreshControl,
+} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {getToken, removeToken} from '../data/storage';
@@ -9,6 +16,7 @@ const AllCustomersScreen = ({navigation}) => {
   const [customers, setCustomers] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredCustomers, setFilteredCustomers] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     fetchData();
@@ -65,13 +73,20 @@ const AllCustomersScreen = ({navigation}) => {
       const data = await response.json();
       // Extract customers array from the response and update state
       setCustomers(data.customers);
-      console.log(data);
+      console.log('data');
       // Update count based on the number of customers received
       setCount(data.customers.length);
     } catch (error) {
       console.error('Error:', error);
       // Handle errors, e.g., show error message
     }
+  };
+  const handleEdit = customer => {
+    navigation.navigate('EditCustomer', {customerData: customer});
+  };
+
+  const handleDelete = customer => {
+    // Handle delete action here
   };
 
   const filterCustomers = () => {
@@ -83,7 +98,7 @@ const AllCustomersScreen = ({navigation}) => {
     setFilteredCustomers(filtered);
   };
 
-  const columnWidths = [80, 150, 200, 150, 150];
+  const columnWidths = [80, 150, 200, 150, 150, 50, 70];
 
   const renderItem = ({item, index}) => (
     <View style={styles.tableRow}>
@@ -102,9 +117,39 @@ const AllCustomersScreen = ({navigation}) => {
       <Text style={[styles.tableData, styles.border, {width: columnWidths[4]}]}>
         {item[4]}
       </Text>
+      <TouchableOpacity
+        onPress={() => handleEdit(item)}
+        style={[
+          styles.tableData,
+          styles.border,
+          {
+            width: columnWidths[5],
+            justifyContent: 'center',
+            alignItems: 'center',
+          },
+        ]}>
+        <Icon name="edit" color="blue" size={20} />
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => handleDelete(item)}
+        style={[
+          styles.tableData,
+          styles.border,
+          {
+            width: columnWidths[6],
+            justifyContent: 'center',
+            alignItems: 'center',
+          },
+        ]}>
+        <Icon name="delete" color="red" size={20} />
+      </TouchableOpacity>
     </View>
   );
-
+  const onRefresh = () => {
+    setRefreshing(true);
+    fetchData();
+    setRefreshing(false);
+  };
   return (
     <View style={styles.container}>
       <TextInput
@@ -115,7 +160,11 @@ const AllCustomersScreen = ({navigation}) => {
         value={searchQuery}
       />
       <Text style={styles.title}>Total Customers: {count}</Text>
-      <ScrollView horizontal>
+      <ScrollView
+        horizontal
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }>
         <View style={styles.table}>
           <View style={styles.tableRow}>
             <Text
@@ -157,6 +206,30 @@ const AllCustomersScreen = ({navigation}) => {
                 {width: columnWidths[4]},
               ]}>
               Date of Birth
+            </Text>
+            <Text
+              style={[
+                styles.tableHeader,
+                styles.border,
+                {
+                  width: columnWidths[5],
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                },
+              ]}>
+              Edit
+            </Text>
+            <Text
+              style={[
+                styles.tableHeader,
+                styles.border,
+                {
+                  width: columnWidths[6],
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                },
+              ]}>
+              Delete
             </Text>
           </View>
 

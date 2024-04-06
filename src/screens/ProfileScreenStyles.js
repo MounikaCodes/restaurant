@@ -42,4 +42,18 @@ export const styles = StyleSheet.create({
     padding: 10,
     color: '#000',
   },
+  button: {
+    width: '100%',
+    height: 40,
+    backgroundColor: '#073d94',
+    borderRadius: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 40,
+  },
+  buttonText: {
+    color: '#ffffff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
 });
