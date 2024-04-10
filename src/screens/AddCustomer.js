@@ -54,7 +54,7 @@ const AddCustomerScreen = ({navigation}) => {
       setToken(userToken);
     };
     fetchToken();
-  }, []); // Empty dependency array ensures useEffect runs only once on component mount
+  }, []);
 
   const handleAddCustomer = () => {
     if (!validateInputs()) {
@@ -82,11 +82,8 @@ const AddCustomerScreen = ({navigation}) => {
       .then(data => {
         console.log('Customer Added Succesfully', data);
         Alert.alert('Customer Added Succesfully');
+        navigation.navigate('AllCustomers');
         resetFields();
-        // setName('');
-        // setMobile('');
-        // setDob('');
-        // setEmail('');
       })
       .catch(error => {
         console.error('Error:', error);

@@ -4,9 +4,10 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  StyleSheet,
   Alert,
+  ImageBackground,
 } from 'react-native';
+import {Card} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
 import {styles} from './RegisterationScreenStyles';
 const RegistrationScreen = () => {
@@ -99,45 +100,51 @@ const RegistrationScreen = () => {
 
   return (
     <View style={styles.container}>
-      {/* <Text style={styles.title}>Registration</Text> */}
+      <ImageBackground
+        source={require('../Assets/bg.jpg')}
+        style={styles.background}>
+        <Card style={styles.Card}>
+          <Text style={styles.title}>Register</Text>
 
-      <TextInput
-        style={styles.input}
-        placeholder="Enter email-id"
-        placeholderTextColor="#000"
-        keyboardType="email-address"
-        onChangeText={text => setEmail(text)}
-        value={email}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Enter your name"
-        placeholderTextColor="#000"
-        onChangeText={text => setName(text)}
-        value={name}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Enter your phone number"
-        keyboardType="phone-pad"
-        placeholderTextColor="#000"
-        onChangeText={text => setMobile(text)}
-        value={mobile}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Set your password"
-        secureTextEntry={true}
-        placeholderTextColor="#000"
-        onChangeText={text => setPassword(text)}
-        value={password}
-      />
-      <TouchableOpacity style={styles.button} onPress={handleRegister}>
-        <Text style={styles.buttonText}>Register</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={handleLogin}>
-        <Text style={styles.button2}>Login here</Text>
-      </TouchableOpacity>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter email-id"
+            placeholderTextColor="#000"
+            keyboardType="email-address"
+            onChangeText={text => setEmail(text)}
+            value={email}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Enter your name"
+            placeholderTextColor="#000"
+            onChangeText={text => setName(text)}
+            value={name}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Enter your phone number"
+            keyboardType="phone-pad"
+            placeholderTextColor="#000"
+            onChangeText={text => setMobile(text)}
+            value={mobile}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Set your password"
+            secureTextEntry={true}
+            placeholderTextColor="#000"
+            onChangeText={text => setPassword(text)}
+            value={password}
+          />
+          <TouchableOpacity style={styles.button} onPress={handleRegister}>
+            <Text style={styles.buttonText}>Register</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={handleLogin}>
+            <Text style={styles.button2}>Login here</Text>
+          </TouchableOpacity>
+        </Card>
+      </ImageBackground>
     </View>
   );
 };

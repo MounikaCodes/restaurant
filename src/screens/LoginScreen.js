@@ -4,12 +4,12 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  StyleSheet,
   Alert,
+  ImageBackground,
 } from 'react-native';
+import {Card} from 'react-native-paper';
 import {styles} from './LoginScreenStyles';
 import {useNavigation} from '@react-navigation/native';
-import LottieView from 'lottie-react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginScreen = ({clearFields}) => {
@@ -83,40 +83,41 @@ const LoginScreen = ({clearFields}) => {
   const handleRegister = () => {
     navigation.navigate('RegistrationScreen');
   };
-
   return (
     <View style={styles.container}>
-      <LottieView
-        style={{width: 300, height: 300}}
-        source={require('../../lottie/login.json')}
-        autoPlay
-        loop
-      />
-      <Text style={styles.title}>Login</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="User email"
-        placeholderTextColor="#000000"
-        value={userEmail}
-        onChangeText={text => setUserEmail(text)}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        placeholderTextColor="#000000"
-        secureTextEntry={true}
-        value={password}
-        onChangeText={text => setPassword(text)}
-      />
-      <TouchableOpacity style={styles.button1} onPress={handleLogin}>
-        <Text style={styles.buttonText1}>Login</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={handleForgotPassword}>
-        <Text style={styles.button2}>Forgot Password?</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={handleRegister}>
-        <Text style={styles.button2}>New ? Register here</Text>
-      </TouchableOpacity>
+      <ImageBackground
+        source={require('../Assets/img.jpg')}
+        style={styles.background}>
+        <Card style={styles.Card}>
+          <Text style={styles.title}>Login</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="User email"
+            placeholderTextColor="#000000"
+            value={userEmail}
+            onChangeText={text => setUserEmail(text)}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Password"
+            placeholderTextColor="#000000"
+            secureTextEntry={true}
+            value={password}
+            onChangeText={text => setPassword(text)}
+          />
+          <TouchableOpacity style={styles.button1} onPress={handleLogin}>
+            <Text style={styles.buttonText1}>Login</Text>
+          </TouchableOpacity>
+          <View style={styles.links}>
+            <TouchableOpacity onPress={handleForgotPassword}>
+              <Text style={styles.button2}>Forgot Password?</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={handleRegister}>
+              <Text style={styles.button3}>New ? Register here</Text>
+            </TouchableOpacity>
+          </View>
+        </Card>
+      </ImageBackground>
     </View>
   );
 };

@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   FlatList,
   RefreshControl,
+  Alert,
 } from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -14,10 +15,20 @@ import {styles} from './AllCustomerStyles';
 const AllCustomersScreen = ({navigation}) => {
   const [count, setCount] = useState(0);
   const [customers, setCustomers] = useState([]);
+  const [token, setToken] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredCustomers, setFilteredCustomers] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
+  useEffect(() => {
+    // Retrieve token when component mounts
+    const fetchToken = async () => {
+      const userToken = await getToken();
+      setToken(userToken);
+    };
+    fetchToken();
+  }, []);
 
+  console.log(token);
   useEffect(() => {
     fetchData();
   }, []);
@@ -86,7 +97,31 @@ const AllCustomersScreen = ({navigation}) => {
   };
 
   const handleDelete = customer => {
-    // Handle delete action here
+    fetch('https://mssriharsha.pythonanywhere.com/customers', {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        customer_email: customer[2],
+        token: token,
+      }),
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log('Customer Added Succesfully', data);
+        Alert.alert('Customer Added Succesfully');
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        // Show error alert message
+        Alert.alert('Error', 'Login failed. Please try again later.');
+      });
   };
 
   const filterCustomers = () => {

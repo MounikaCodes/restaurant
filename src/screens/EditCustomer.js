@@ -1,12 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
-  Alert,
-} from 'react-native';
+import {View, Text, TextInput, TouchableOpacity, Alert} from 'react-native';
 import {styles} from './EditCustomerStyles';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {getToken, removeToken} from '../data/storage';
@@ -37,7 +30,7 @@ const EditCustomerScreen = ({route, navigation}) => {
   const handleDOBChange = (event, selectedDate) => {
     setShowDatePicker(false);
     if (selectedDate) {
-      const formattedDate = format(selectedDate, 'dd-MM-yyyy');
+      const formattedDate = selectedDate.toLocaleDateString('en-GB');
       setDOBDate(formattedDate);
       setDob(selectedDate);
     }
@@ -68,12 +61,14 @@ const EditCustomerScreen = ({route, navigation}) => {
     fetchToken();
   }, []); // Empty dependency array ensures useEffect runs only once on component mount
 
-  const handleSave = () => {
+  const handleSave = customer => {
     if (!validateInputs()) {
       return;
     }
+    console.log(customer[2], email);
+
     fetch('https://mssriharsha.pythonanywhere.com/customers', {
-      method: 'POST',
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -92,9 +87,13 @@ const EditCustomerScreen = ({route, navigation}) => {
         return response.json();
       })
       .then(data => {
-        console.log('Customer Details Updated Succesfully', data);
-        Alert.alert('Customer Details Updated Succesfully');
-        resetFields();
+        if (!data.customer_email) {
+          Alert.alert('Failed to update data', data);
+        } else {
+          console.log('Customer Details Updated Succesfully', data);
+          Alert.alert('Customer Details Updated Succesfully');
+          navigation.navigate('AllCustomers');
+        }
       })
       .catch(error => {
         console.error('Error:', error);
