@@ -88,7 +88,7 @@ const AddCustomerScreen = ({navigation}) => {
       .catch(error => {
         console.error('Error:', error);
         // Show error alert message
-        Alert.alert('Error', 'Login failed. Please try again later.');
+        Alert.alert('Error', 'Network failed. Please try again later.');
       });
   };
   const validateInputs = () => {

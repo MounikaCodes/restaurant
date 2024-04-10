@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Alert,
   ImageBackground,
+  StyleSheet,
 } from 'react-native';
 import {Card} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
@@ -101,8 +102,9 @@ const RegistrationScreen = () => {
   return (
     <View style={styles.container}>
       <ImageBackground
-        source={require('../Assets/bg.jpg')}
-        style={styles.background}>
+        style={{flex: 1}}
+        source={require('../assets/bg.jpg')}
+        resizeMode="cover">
         <Card style={styles.Card}>
           <Text style={styles.title}>Register</Text>
 

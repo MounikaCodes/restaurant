@@ -98,7 +98,7 @@ const EditCustomerScreen = ({route, navigation}) => {
       .catch(error => {
         console.error('Error:', error);
         // Show error alert message
-        Alert.alert('Error', 'Login failed. Please try again later.');
+        Alert.alert('Error', 'Network failed. Please try again later.');
       });
   };
   const validateInputs = () => {
@@ -154,7 +154,7 @@ const EditCustomerScreen = ({route, navigation}) => {
         value={mobile}
         onChangeText={text => setMobile(text)}
       />
-      <Text style={styles.label}>Email-id:</Text>
+      {/* <Text style={styles.label}>Email-id:</Text>
       <TextInput
         style={styles.input}
         placeholder="Email"
@@ -162,7 +162,7 @@ const EditCustomerScreen = ({route, navigation}) => {
         placeholderTextColor="#ccc"
         onChangeText={text => setEmail(text)}
         value={email}
-      />
+      /> */}
 
       <Text style={styles.label}>Date of Birth:</Text>
       <TextInput

@@ -56,18 +56,17 @@ export const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   button2: {
-    marginTop: 10,
     color: '#007bff',
     textDecorationLine: 'underline',
   },
   button3: {
-    marginTop: 10,
     color: '#007bff',
     textDecorationLine: 'underline',
-    paddingLeft: '30%',
   },
 
   links: {
     flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: '5%',
   },
 });

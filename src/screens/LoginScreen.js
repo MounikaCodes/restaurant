@@ -86,7 +86,7 @@ const LoginScreen = ({clearFields}) => {
   return (
     <View style={styles.container}>
       <ImageBackground
-        source={require('../Assets/img.jpg')}
+        source={require('../assets/img.jpg')}
         style={styles.background}>
         <Card style={styles.Card}>
           <Text style={styles.title}>Login</Text>
@@ -108,6 +108,7 @@ const LoginScreen = ({clearFields}) => {
           <TouchableOpacity style={styles.button1} onPress={handleLogin}>
             <Text style={styles.buttonText1}>Login</Text>
           </TouchableOpacity>
+
           <View style={styles.links}>
             <TouchableOpacity onPress={handleForgotPassword}>
               <Text style={styles.button2}>Forgot Password?</Text>
