@@ -1,18 +1,12 @@
 import React, {useState, useEffect} from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
-  Alert,
-} from 'react-native';
-import {styles} from './AddCustomerStyles';
+import {View, Text, TextInput, TouchableOpacity, Alert} from 'react-native';
+import {styles} from './EditCustomerStyles';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {getToken, removeToken} from '../data/storage';
+import {getToken, removeToken} from '../../data/storage';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import {format} from 'date-fns';
-const AddCustomerScreen = ({navigation}) => {
+import {format, parse} from 'date-fns';
+
+const EditCustomerScreen = ({route, navigation}) => {
   const [name, setName] = useState('');
   const [mobile, setMobile] = useState('');
   const [dob, setDob] = useState(new Date());
@@ -20,6 +14,19 @@ const AddCustomerScreen = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [DOBDate, setDOBDate] = useState('');
   const [showDatePicker, setShowDatePicker] = useState(false);
+
+  useEffect(() => {
+    const {customerData} = route.params;
+
+    console.log('Customer Data:', customerData);
+    setName(customerData[1]);
+    setMobile(customerData[3]);
+    setEmail(customerData[2]);
+    setDOBDate(customerData[4]);
+    // Parse the date string to set the date object
+    setDob(parse(customerData[4], 'dd-MM-yyyy', new Date()));
+  }, []);
+
   const handleDOBChange = (event, selectedDate) => {
     setShowDatePicker(false);
     if (selectedDate) {
@@ -40,7 +47,6 @@ const AddCustomerScreen = ({navigation}) => {
     });
   }, []);
   const handleLogout = async () => {
-    // Clear AsyncStorage and navigate to Login screen
     await removeToken();
     navigation.reset({
       index: 0,
@@ -48,20 +54,35 @@ const AddCustomerScreen = ({navigation}) => {
     });
   };
   useEffect(() => {
-    // Retrieve token when component mounts
+    navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity
+          onPress={handleBack}
+          style={{position: 'absolute', top: '30%', left: '5%', zIndex: 1}}>
+          <Icon name="arrow-back" color="white" size={25} />
+        </TouchableOpacity>
+      ),
+    });
+  }, []);
+  const handleBack = () => {
+    navigation.navigate('Dashboard');
+  };
+  useEffect(() => {
     const fetchToken = async () => {
       const userToken = await getToken();
       setToken(userToken);
     };
     fetchToken();
-  }, []);
+  }, []); // Empty dependency array ensures useEffect runs only once on component mount
 
-  const handleAddCustomer = () => {
+  const handleSave = customer => {
     if (!validateInputs()) {
       return;
     }
+    console.log(customer[2], email);
+
     fetch('https://mssriharsha.pythonanywhere.com/customers', {
-      method: 'POST',
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -80,10 +101,14 @@ const AddCustomerScreen = ({navigation}) => {
         return response.json();
       })
       .then(data => {
-        console.log('Customer Added Succesfully', data);
-        Alert.alert('Customer Added Succesfully');
-        navigation.navigate('AllCustomers');
-        resetFields();
+        if (!data.customer_email) {
+          Alert.alert('Failed to update data', data);
+        } else {
+          console.log('Customer Details Updated Succesfully', data);
+          Alert.alert('Customer Details Updated Succesfully');
+          navigation.navigate('Dashboard');
+          resetFields();
+        }
       })
       .catch(error => {
         console.error('Error:', error);
@@ -107,14 +132,10 @@ const AddCustomerScreen = ({navigation}) => {
       return false;
     }
 
-    // Validate email format
     if (!validateEmail(email)) {
       Alert.alert('Error', 'Please enter a valid email address.');
       return false;
     }
-
-    // Other validation logic for email, dob, etc. can be added here
-
     return true;
   };
 
@@ -126,8 +147,9 @@ const AddCustomerScreen = ({navigation}) => {
   const resetFields = () => {
     setName('');
     setMobile('');
-    setDob(new Date());
+    setDob('');
     setEmail('');
+    setDOBDate('');
   };
   return (
     <View style={styles.container}>
@@ -148,7 +170,7 @@ const AddCustomerScreen = ({navigation}) => {
         value={mobile}
         onChangeText={text => setMobile(text)}
       />
-      <Text style={styles.label}>Email-id:</Text>
+      {/* <Text style={styles.label}>Email-id:</Text>
       <TextInput
         style={styles.input}
         placeholder="Email"
@@ -156,12 +178,12 @@ const AddCustomerScreen = ({navigation}) => {
         placeholderTextColor="#ccc"
         onChangeText={text => setEmail(text)}
         value={email}
-      />
+      /> */}
 
       <Text style={styles.label}>Date of Birth:</Text>
       <TextInput
         style={styles.dateInput}
-        placeholder="Select DOB"
+        placeholder="DD/MM/YYYY"
         placeholderTextColor="gray"
         value={DOBDate}
         onFocus={() => setShowDatePicker(true)}
@@ -174,11 +196,11 @@ const AddCustomerScreen = ({navigation}) => {
           onChange={handleDOBChange}
         />
       )}
-      <TouchableOpacity style={styles.button} onPress={handleAddCustomer}>
-        <Text style={styles.buttonText}>Add Customer</Text>
+      <TouchableOpacity style={styles.button} onPress={handleSave}>
+        <Text style={styles.buttonText}>Save </Text>
       </TouchableOpacity>
     </View>
   );
 };
 
-export default AddCustomerScreen;
+export default EditCustomerScreen;

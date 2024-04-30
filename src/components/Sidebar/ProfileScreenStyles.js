@@ -50,6 +50,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 40,
+    paddingHorizontal: '5%',
   },
   buttonText: {
     color: '#ffffff',

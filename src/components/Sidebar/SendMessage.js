@@ -7,11 +7,26 @@ import {
   StyleSheet,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {getToken, removeToken} from '../data/storage';
+import {getToken, removeToken} from '../../data/storage';
 import {styles} from './SendMessageStyles';
 
 const SendMessageScreen = ({navigation}) => {
   const [message, setMessage] = useState('');
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity
+          onPress={handleBack}
+          style={{position: 'absolute', top: '30%', left: '5%', zIndex: 1}}>
+          <Icon name="arrow-back" color="white" size={25} />
+        </TouchableOpacity>
+      ),
+    });
+  }, []);
+  const handleBack = () => {
+    navigation.navigate('Dashboard');
+  };
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (

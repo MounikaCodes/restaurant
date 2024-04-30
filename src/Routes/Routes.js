@@ -1,65 +1,57 @@
-/*
 import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
+import {SafeAreaView, StatusBar, StyleSheet} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
-import LoginScreen from './src/components/screens/LoginScreen';
-import DashboardScreen from './src/components/screens/DashboardScreen';
-import AllCustomersScreen from './src/components/screens/AllCustomers';
-import AddCustomerScreen from './src/components/screens/AddCustomer';
-import SendMessageScreen from './src/components/screens/SendMessage';
-import SendMessageToSelectedScreen from './src/components/screens/SendMessageToSelected';
-import SettingsScreen from './src/components/screens/Settings';
-import ProfileScreen from './src/components/screens/ProfileScreen';
-import OtherSettingsScreen from './src/components/screens/OthersScreen';
-import ChangePasswordScreen from './src/components/screens/ChangePassword';
-import ForgotPasswordScreen from './src/components/screens/ForgotPassword';
-import RegistrationScreen from './src/components/screens/RegisterationScreen';
-import EditCustomer from './src/components/screens/EditCustomer';
+import LoginScreen from '../components/InitialScreens/LoginScreen';
+import DashboardScreen from '../components/InitialScreens/DashboardScreen';
+import AddCustomerScreen from '../components/Customers/AddCustomer';
+import SendMessageScreen from '../components/Sidebar/SendMessage';
+import SendMessageToSelectedScreen from '../components/Sidebar/SendMessageToSelected';
+import SettingsScreen from '../components/Sidebar/Settings';
+import ProfileScreen from '../components/Sidebar/ProfileScreen';
+import OtherSettingsScreen from '../components/Sidebar/OthersScreen';
+import ChangePasswordScreen from '../components/InitialScreens/ChangePassword';
+import ForgotPasswordScreen from '../components/InitialScreens/ForgotPassword';
+import RegistrationScreen from '../components/InitialScreens/RegisterationScreen';
+import EditCustomer from '../components/Customers/EditCustomer';
+import Sidebar from '../components/Sidebar/Sidebar';
 
-const Stack = createStackNavigator();
-
-const App = () => {
+export default function Routes() {
+  const Stack = createStackNavigator();
   return (
-    <NavigationContainer>
+    <SafeAreaView style={styles.container}>
+      <StatusBar barStyle="dark-content" backgroundColor={'white'} />
       <Stack.Navigator initialRouteName="Login">
         <Stack.Screen
           name="Login"
           component={LoginScreen}
           options={{headerShown: false}}
         />
-        <Stack.Screen
-          name="Tab"
-          component={TabNavigator}
-          options={{headerShown: false}}
-        />
+
         <Stack.Screen
           name="Dashboard"
           component={DashboardScreen}
           options={{
-            headerTitle: 'Dashboard',
-            headerStyle: {backgroundColor: '#073d94'},
+            headerTitle: '',
+            headerStyle: {backgroundColor: '#ffffff'},
             headerTitleAlign: 'center',
             headerTintColor: '#fff',
           }}
         />
         <Stack.Screen
-          name="AllCustomers"
-          component={AllCustomersScreen}
+          name="Sidebar"
+          component={Sidebar}
           options={{
-            headerTitle: 'All Customers',
-            headerStyle: {backgroundColor: '#073d94'},
+            headerTitle: '',
+            headerStyle: {backgroundColor: '#ff8a3d'},
             headerTitleAlign: 'center',
-            headerTintColor: '#fff',
           }}
         />
+
         <Stack.Screen
           name="AddCustomers"
           component={AddCustomerScreen}
           options={{
-            headerTitle: 'Add a Customers',
-            headerStyle: {backgroundColor: '#073d94'},
-            headerTitleAlign: 'center',
-            headerTintColor: '#fff',
+            headerShown: false,
           }}
         />
         <Stack.Screen
@@ -148,24 +140,10 @@ const App = () => {
           }}
         />
       </Stack.Navigator>
-    </NavigationContainer>
+    </SafeAreaView>
   );
-};
+}
 
-export default App;
-
-*/
-
-import React from 'react';
-import Routes from './src/Routes/Routes';
-import {NavigationContainer} from '@react-navigation/native';
-
-const App = () => {
-  return (
-    <NavigationContainer>
-      <Routes />
-    </NavigationContainer>
-  );
-};
-
-export default App;
+const styles = StyleSheet.create({
+  container: {flex: 1},
+});

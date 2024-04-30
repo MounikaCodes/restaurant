@@ -72,14 +72,14 @@ import {
 
 export const styles = StyleSheet.create({
   container: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#fff',
-    width: wp('100%'), // 100% of screen width
-    height: hp('100%'), // 100% of screen height
   },
 
   background: {
+    flex: 1,
     width: wp('100%'),
     height: hp('100%'),
     justifyContent: 'center',
@@ -92,12 +92,12 @@ export const styles = StyleSheet.create({
     height: hp('65%'),
     justifyContent: 'center',
     alignContent: 'center',
-    marginTop: hp('10%'),
-    paddingHorizontal: wp('2%'),
+    marginTop: hp('15%'),
+    paddingHorizontal: wp('12%'),
   },
 
   title: {
-    fontSize: hp('4%'), // responsive font size
+    fontSize: hp('4%'),
     fontWeight: 'bold',
     fontFamily: 'Verdana, sans-serif',
     marginBottom: hp('2.5%'),
@@ -106,9 +106,11 @@ export const styles = StyleSheet.create({
   },
 
   input: {
+    color: 'black',
     alignSelf: 'center',
     width: wp('90%'),
-    height: hp('5%'),
+    height: 45,
+    // height: hp('5%'),
     borderColor: '#000',
     borderWidth: 1,
     borderRadius: 7,

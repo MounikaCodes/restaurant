@@ -2,17 +2,16 @@ import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#ffffff',
+    flex: 1,
   },
   title: {
-    display: 'flex',
     position: 'relative',
     fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: '5%',
+    // marginBottom: '5%',
     color: 'green',
-    marginTop: '5%',
+    // marginTop: '5%',
     marginLeft: '2%',
   },
   searchInput: {
@@ -60,5 +59,25 @@ export const styles = StyleSheet.create({
   border: {
     borderWidth: 0.5,
     borderColor: '#000000',
+  },
+
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContent: {
+    backgroundColor: 'white',
+    borderRadius: 10,
+    padding: 20,
+    width: '80%',
+    maxWidth: 400,
+    maxHeight: '80%',
+  },
+  closeButton: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
   },
 });

@@ -2,9 +2,23 @@ import React, {useState, useEffect} from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {getToken, removeToken} from '../data/storage';
+import {getToken, removeToken} from '../../data/storage';
 import {styles} from './SettingStyles';
 const SettingsScreen = () => {
+  useEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity
+          onPress={handleBack}
+          style={{position: 'absolute', top: '30%', left: '5%', zIndex: 1}}>
+          <Icon name="arrow-back" color="white" size={25} />
+        </TouchableOpacity>
+      ),
+    });
+  }, []);
+  const handleBack = () => {
+    navigation.navigate('Dashboard');
+  };
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (

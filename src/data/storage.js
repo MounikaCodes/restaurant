@@ -19,3 +19,13 @@ export const removeToken = async () => {
     console.error('Error removing token from AsyncStorage:', error);
   }
 };
+
+export const getName = async () => {
+  try {
+    const user_name = await AsyncStorage.getItem('user_name');
+    return user_name;
+  } catch (error) {
+    console.error('Error getting token from AsyncStorage:', error);
+    return null;
+  }
+};

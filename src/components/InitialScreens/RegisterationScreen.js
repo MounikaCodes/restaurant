@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -6,18 +6,22 @@ import {
   TouchableOpacity,
   Alert,
   ImageBackground,
-  StyleSheet,
 } from 'react-native';
 import {Card} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
 import {styles} from './RegisterationScreenStyles';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const RegistrationScreen = () => {
   const navigation = useNavigation();
 
   const [email, setEmail] = useState('');
-  const [name, setName] = useState('');
+  const [user_name, setUserName] = useState('');
   const [mobile, setMobile] = useState('');
   const [password, setPassword] = useState('');
+  useEffect(() => {
+    AsyncStorage.getItem('user_name');
+  }, []);
 
   const handleRegister = () => {
     if (!validateInputs()) {
@@ -29,7 +33,7 @@ const RegistrationScreen = () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        user_name: name,
+        user_name: user_name,
         user_email: email,
         user_password: password,
       }),
@@ -40,9 +44,12 @@ const RegistrationScreen = () => {
         }
         return response.json();
       })
+
       .then(data => {
         // If registration successful, navigate to login screen
         navigation.navigate('Login');
+        console.log(user_name, user_name);
+        AsyncStorage.setItem('user_name', user_name);
         console.log('response', data); // Change 'response' to 'data'
       })
 
@@ -55,7 +62,7 @@ const RegistrationScreen = () => {
   };
   const validateInputs = () => {
     // Validate name
-    if (!name || name.length > 50) {
+    if (!user_name || user_name.length > 50) {
       Alert.alert(
         'Error',
         'Name is required and should be up to 50 characters.',
@@ -89,7 +96,7 @@ const RegistrationScreen = () => {
   };
 
   const resetFields = () => {
-    setName('');
+    setUserName('');
     setMobile('');
     setEmail('');
     setPassword('');
@@ -102,9 +109,8 @@ const RegistrationScreen = () => {
   return (
     <View style={styles.container}>
       <ImageBackground
-        style={{flex: 1}}
-        source={require('../assets/bg.jpg')}
-        resizeMode="cover">
+        style={styles.background}
+        source={require('../../assets/bg.jpg')}>
         <Card style={styles.Card}>
           <Text style={styles.title}>Register</Text>
 
@@ -120,8 +126,8 @@ const RegistrationScreen = () => {
             style={styles.input}
             placeholder="Enter your name"
             placeholderTextColor="#000"
-            onChangeText={text => setName(text)}
-            value={name}
+            onChangeText={text => setUserName(text)}
+            value={user_name}
           />
           <TextInput
             style={styles.input}

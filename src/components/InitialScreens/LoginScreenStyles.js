@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
 
   Card: {
     backgroundColor: 'rgba(255, 255, 255, 0.8)',
-    width: '90%',
+    width: '100%',
     justifyContent: 'center',
     padding: 20,
   },
@@ -31,8 +31,8 @@ export const styles = StyleSheet.create({
   },
   input: {
     alignSelf: 'center',
-    width: '80%',
-    height: 40,
+    width: '90%',
+    height: 45,
     borderColor: '#000',
     borderWidth: 1,
     borderRadius: 5,
@@ -44,7 +44,7 @@ export const styles = StyleSheet.create({
     alignSelf: 'center',
     width: '50%',
     height: 40,
-    backgroundColor: '#007bff',
+    backgroundColor: '#073d94',
     borderRadius: 5,
     justifyContent: 'center',
     alignItems: 'center',
@@ -56,11 +56,11 @@ export const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   button2: {
-    color: '#007bff',
+    color: '#073d94',
     textDecorationLine: 'underline',
   },
   button3: {
-    color: '#007bff',
+    color: '#073d94',
     textDecorationLine: 'underline',
   },
 

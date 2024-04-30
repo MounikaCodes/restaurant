@@ -12,7 +12,7 @@ import {styles} from './LoginScreenStyles';
 import {useNavigation} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const LoginScreen = ({clearFields}) => {
+const LoginScreen = () => {
   const [userEmail, setUserEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -86,7 +86,7 @@ const LoginScreen = ({clearFields}) => {
   return (
     <View style={styles.container}>
       <ImageBackground
-        source={require('../assets/img.jpg')}
+        source={require('../../assets/img.jpg')}
         style={styles.background}>
         <Card style={styles.Card}>
           <Text style={styles.title}>Login</Text>
