@@ -27,7 +27,7 @@ const ForgotPasswordScreen = () => {
       <TextInput
         style={styles.input}
         placeholder="Enter your Mobile Number"
-        placeholderTextColor="#000000"
+        placeholderTextColor="#ccc"
         keyboardType="phone-pad"
         value={mobile}
         onChangeText={setMobile}

@@ -9,7 +9,41 @@ const ProfileScreen = ({navigation}) => {
   const [image, setImage] = useState(null);
   const [token, setToken] = useState('');
   const [user_name, setUserName] = useState('');
-  console.log(user_name, token);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Retrieve token when component mounts
+        const userToken = await getToken();
+        setToken(userToken);
+        const response = await fetch(
+          `https://mssriharsha.pythonanywhere.com/profile?token=${userToken}`,
+        );
+        if (response.ok) {
+          console.log('response is ook');
+          const blob = await response.blob();
+          const reader = new FileReader();
+          reader.onload = () => {
+            const base64ImageData = reader.result.split(',')[1]; // Extract base64 data
+            const uri = `data:${response.headers.get(
+              'Content-Type',
+            )};base64,${base64ImageData}`;
+            setImage(uri);
+          };
+          reader.readAsDataURL(blob);
+        } else {
+          console.error('Failed to fetch image');
+        }
+
+        // Fetch user name
+        const userName = await getName();
+        setUserName(userName);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
@@ -42,42 +76,7 @@ const ProfileScreen = ({navigation}) => {
   const handleBack = () => {
     navigation.navigate('Dashboard');
   };
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Retrieve token when component mounts
-        const userToken = await getToken();
-        setToken(userToken);
 
-        // Fetch image using token
-        const response = await fetch(
-          `https://mssriharsha.pythonanywhere.com/profile?token=${userToken}`,
-        );
-        if (response.ok) {
-          const blob = await response.blob();
-          const reader = new FileReader();
-          reader.onload = () => {
-            const base64ImageData = reader.result.split(',')[1]; // Extract base64 data
-            const uri = `data:${response.headers.get(
-              'Content-Type',
-            )};base64,${base64ImageData}`;
-            setImage(uri);
-          };
-          reader.readAsDataURL(blob);
-        } else {
-          console.error('Failed to fetch image');
-        }
-
-        // Fetch user name
-        const userName = await getName();
-        setUserName(userName);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
-    fetchData();
-  }, []);
   useEffect(() => {
     const fetchName = async () => {
       const userName = await getName();
@@ -85,32 +84,31 @@ const ProfileScreen = ({navigation}) => {
     };
     fetchName();
   });
-  useEffect(() => {
-    fetchImage();
-  }, []);
-  const fetchImage = async () => {
-    console.log('token--->', token);
-    try {
-      const response = await fetch(
-        `https://mssriharsha.pythonanywhere.com/profile?token=${token}`,
-      );
-      if (response.ok) {
-        console.log('response is ook');
-        const blob = await response.blob();
-        const reader = new FileReader();
-        reader.onload = () => {
-          const base64ImageData = reader.result.split(',')[1]; // Extract base64 data
-          const uri = `data:${response.headers.get(
-            'Content-Type',
-          )};base64,${base64ImageData}`;
-          setImage(uri);
-        };
-        reader.readAsDataURL(blob);
-      }
-    } catch (error) {
-      console.error('Error fetching image:', error);
-    }
-  };
+  // useEffect(() => {
+  //   fetchImage();
+  // }, []);
+  // const fetchImage = async () => {
+  //   try {
+  //     const response = await fetch(
+  //       `https://mssriharsha.pythonanywhere.com/profile?token=${token}`,
+  //     );
+  //     if (response.ok) {
+  //       console.log('response is ook');
+  //       const blob = await response.blob();
+  //       const reader = new FileReader();
+  //       reader.onload = () => {
+  //         const base64ImageData = reader.result.split(',')[1]; // Extract base64 data
+  //         const uri = `data:${response.headers.get(
+  //           'Content-Type',
+  //         )};base64,${base64ImageData}`;
+  //         setImage(uri);
+  //       };
+  //       reader.readAsDataURL(blob);
+  //     }
+  //   } catch (error) {
+  //     console.error('Error fetching image:', error);
+  //   }
+  // };
 
   const options = {
     title: 'Select Image',

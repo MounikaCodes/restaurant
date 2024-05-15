@@ -1,13 +1,17 @@
 import {StyleSheet} from 'react-native';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 export const styles = StyleSheet.create({
   container: {
     display: 'flex',
-    backgroundColor: '#fffff',
+    backgroundColor: '#f5dcf4',
     paddingHorizontal: 20,
     justifyContent: 'center',
-    height: '100%',
-    width: '100%',
+    height: hp('70%'),
+    width: wp('70%'),
   },
   title: {
     fontSize: 24,
@@ -17,8 +21,8 @@ export const styles = StyleSheet.create({
     marginLeft: 100,
   },
   input: {
-    width: '100%',
-    height: 40,
+    width: wp('60%'),
+    height: hp('6%'),
     borderColor: '#cccccc',
     borderWidth: 1,
     borderRadius: 5,
@@ -36,8 +40,8 @@ export const styles = StyleSheet.create({
     textAlign: 'left',
   },
   button: {
-    width: '45%',
-    height: 40,
+    width: wp('28%'),
+    height: hp('6%'),
     backgroundColor: '#073d94',
     borderRadius: 5,
     justifyContent: 'center',
@@ -51,7 +55,7 @@ export const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   dateInput: {
-    width: '100%',
+    width: wp('60%'),
     height: 40,
     borderColor: '#cccccc',
     borderWidth: 1,

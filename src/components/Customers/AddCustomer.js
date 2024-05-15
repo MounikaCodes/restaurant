@@ -111,16 +111,16 @@ const AddCustomerScreen = ({handleCancel}) => {
       <Text style={styles.label}>Name:</Text>
       <TextInput
         style={styles.input}
-        placeholder="customer Name"
-        placeholderTextColor="#ccc"
+        placeholder="Jhon joe"
+        placeholderTextColor="gray"
         value={name}
         onChangeText={text => setName(text)}
       />
       <Text style={styles.label}>Mobile Number:</Text>
       <TextInput
         style={styles.input}
-        placeholder="Customer Mobile Number"
-        placeholderTextColor="#ccc"
+        placeholder="111 1122 222"
+        placeholderTextColor="gray"
         keyboardType="phone-pad"
         value={mobile}
         onChangeText={text => setMobile(text)}
@@ -128,9 +128,9 @@ const AddCustomerScreen = ({handleCancel}) => {
       <Text style={styles.label}>Email-id:</Text>
       <TextInput
         style={styles.input}
-        placeholder="Email"
+        placeholder="jhon@email.com"
         keyboardType="email-address"
-        placeholderTextColor="#ccc"
+        placeholderTextColor="gray"
         onChangeText={text => setEmail(text)}
         value={email}
       />

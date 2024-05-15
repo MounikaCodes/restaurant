@@ -1,4 +1,8 @@
 import {StyleSheet} from 'react-native';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 export const styles = StyleSheet.create({
   container: {
@@ -9,9 +13,7 @@ export const styles = StyleSheet.create({
     position: 'relative',
     fontSize: 18,
     fontWeight: 'bold',
-    // marginBottom: '5%',
-    color: 'green',
-    // marginTop: '5%',
+    color: '#073d94',
     marginLeft: '2%',
   },
   searchInput: {
@@ -19,7 +21,7 @@ export const styles = StyleSheet.create({
     marginHorizontal: '2%',
     position: 'relative',
     backgroundColor: '#ffffff',
-    width: '95%',
+    width: wp('95%'),
     borderColor: '#cccccc',
     borderWidth: 1,
     borderRadius: 5,
@@ -27,9 +29,9 @@ export const styles = StyleSheet.create({
     color: '#000000',
   },
   table: {
-    // borderWidth: 1,
-    borderColor: '#000000',
-    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#073d94',
+    borderRadius: 0,
     backgroundColor: '#ffffff',
     margin: 10,
   },
@@ -38,7 +40,7 @@ export const styles = StyleSheet.create({
     borderBottomWidth: 0.5,
     borderLeftWidth: 0.5,
     borderRightWidth: 0.5,
-    borderColor: '#000000',
+    borderColor: '#073d94',
   },
   tableHeader: {
     fontSize: 16,
@@ -47,7 +49,7 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#fff',
     backgroundColor: '#073d94',
-    width: '90%',
+    width: wp('90%'),
   },
   tableData: {
     fontSize: 16,
@@ -58,7 +60,7 @@ export const styles = StyleSheet.create({
   },
   border: {
     borderWidth: 0.5,
-    borderColor: '#000000',
+    borderColor: '#073d94',
   },
 
   modalContainer: {
@@ -68,12 +70,12 @@ export const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   modalContent: {
-    backgroundColor: 'white',
+    backgroundColor: '#f5dcf4',
     borderRadius: 10,
     padding: 20,
-    width: '80%',
+    width: wp('80%'),
     maxWidth: 400,
-    maxHeight: '80%',
+    maxHeight: hp('80%'),
   },
   closeButton: {
     position: 'absolute',

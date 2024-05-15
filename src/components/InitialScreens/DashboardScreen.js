@@ -27,9 +27,6 @@ const DashboardScreen = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [showAddCustomerModal, setShowAddCustomerModal] = useState(false);
-  const [scrollY, setScrollY] = useState(0);
-  const scrollViewRef = useRef();
-
   useEffect(() => {
     // Retrieve token when component mounts
     const fetchToken = async () => {
@@ -94,10 +91,6 @@ const DashboardScreen = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        // body: JSON.stringify({
-        //   customer_email: customer[2],
-        //   token: token,
-        // }),
       },
     )
       .then(response => {
@@ -154,7 +147,7 @@ const DashboardScreen = () => {
             alignItems: 'center',
           },
         ]}>
-        <Icon name="edit" color="blue" size={20} />
+        <Icon name="edit" color="#073d94" size={20} />
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => handleDelete(item)}
@@ -171,11 +164,6 @@ const DashboardScreen = () => {
       </TouchableOpacity>
     </View>
   );
-  // const onRefresh = () => {
-  //   setRefreshing(true);
-  //   fetchData();
-  //   setRefreshing(false);
-  // };
   const handleAddCustomer = () => {
     setShowAddCustomerModal(false);
     setRefreshDashboard(true);
@@ -193,7 +181,7 @@ const DashboardScreen = () => {
       headerLeft: () => (
         <TouchableOpacity
           onPress={handleMenuIconPress}
-          style={{position: 'absolute', top: '30%', left: '20%', zIndex: 1}}>
+          style={{position: 'absolute', top: '30%', left: '10%', zIndex: 1}}>
           <Icon name="menu" color="#073d94" size={25} />
         </TouchableOpacity>
       ),
@@ -203,7 +191,7 @@ const DashboardScreen = () => {
       headerRight: () => (
         <TouchableOpacity
           onPress={handleLogout}
-          style={{position: 'absolute', top: '30%', left: '65%', zIndex: 1}}>
+          style={{position: 'absolute', top: '30%', left: '75%', zIndex: 1}}>
           <Icon name="logout" color="#073d94" size={25} />
         </TouchableOpacity>
       ),
@@ -224,27 +212,10 @@ const DashboardScreen = () => {
     setShowAddCustomerModal(false);
     fetchData();
   };
-
-  const handleScroll = event => {
-    const offsetY = event.nativeEvent.contentOffset.y;
-    setScrollY(offsetY);
-  };
-
-  const scrollToTop = () => {
-    if (scrollViewRef.current) {
-      scrollViewRef.current.scrollTo({x: 0, y: 0, animated: true});
-    }
-  };
-
   const onRefresh = () => {
-    if (scrollY === 0) {
-      setRefreshing(true);
-      fetchData();
-      setRefreshing(false);
-    } else {
-      scrollToTop();
-      setRefreshing(true); // Set refreshing after scrolling to top
-    }
+    setRefreshing(true);
+    fetchData();
+    setRefreshing(false);
   };
   return (
     <View style={styles.container}>
@@ -257,9 +228,10 @@ const DashboardScreen = () => {
           value={searchQuery}
         />
         <ScrollView
-          ref={scrollViewRef}
-          onScroll={handleScroll}
-          style={{height: '70%', backgroundColor: 'white'}}
+          style={{
+            height: '70%',
+            backgroundColor: 'white',
+          }}
           horizontal
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
@@ -342,17 +314,15 @@ const DashboardScreen = () => {
             />
           </View>
         </ScrollView>
-        <TouchableOpacity
-          style={styles.scrollToTopButton}
-          onPress={scrollToTop}>
-          <Icon name="keyboard-arrow-up" size={30} color="#073d94" />
-        </TouchableOpacity>
+
         <View
           style={{
             display: 'flex',
             flexDirection: 'row',
+            backgroundColor: '#fff',
             justifyContent: 'space-between',
-            margin: '2%',
+            paddingVertical: '2%',
+            paddingHorizontal: '0%',
           }}>
           <Text style={[styles.title, {marginTop: '3%', marginLeft: '3%'}]}>
             Total Customers: {count}
@@ -383,34 +353,29 @@ const DashboardScreen = () => {
           </TouchableOpacity>
         </View>
       </View>
-
       {sidebarOpen && (
         <View style={styles.sidebar}>
           <Sidebar isOpen={sidebarOpen} onClose={handleCloseSidebar} />
         </View>
       )}
-      {/* AddCustomerScreen Modal */}
       <Modal
         animationType="slide"
         transparent={true}
         visible={showAddCustomerModal}
-        onRequestClose={() => setShowAddCustomerModal(false)}>
+        onRequestClose={handleCancel}>
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <TouchableOpacity
-              onPress={() => setShowAddCustomerModal(false)}
-              style={styles.closeButton}>
-              <Icon name="close" size={25} color="#073d94" />
-            </TouchableOpacity>
             <AddCustomerScreen
               handleAddCustomer={handleAddCustomer}
               handleCancel={handleCancel}
             />
+            <TouchableOpacity onPress={handleCancel} style={styles.closeButton}>
+              <Icon name="close" size={25} color="#073d94" />
+            </TouchableOpacity>
           </View>
         </View>
       </Modal>
     </View>
   );
 };
-
 export default DashboardScreen;
